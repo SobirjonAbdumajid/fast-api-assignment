@@ -1,8 +1,8 @@
 """Create initial tables
 
-Revision ID: 91a350bade89
+Revision ID: 4d1232d4a26c
 Revises: 
-Create Date: 2025-01-03 18:22:21.150880
+Create Date: 2025-01-03 21:06:43.178410
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '91a350bade89'
+revision: str = '4d1232d4a26c'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -26,7 +26,7 @@ def upgrade() -> None:
     sa.Column('description', sa.String(), nullable=True),
     sa.Column('price', sa.Float(), nullable=True),
     sa.Column('stock', sa.Integer(), nullable=True),
-    sa.Column('category', sa.NullType(), nullable=True),
+    sa.Column('category', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users',
@@ -36,7 +36,7 @@ def upgrade() -> None:
     sa.Column('email', sa.String(), nullable=True),
     sa.Column('hashed_password', sa.String(), nullable=True),
     sa.Column('is_active', sa.Boolean(), nullable=True),
-    sa.Column('role', sa.NullType(), nullable=True),
+    sa.Column('role', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
@@ -45,11 +45,10 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('customer_id', sa.Integer(), nullable=True),
     sa.Column('order_date', sa.DateTime(), nullable=True),
-    sa.Column('status', sa.NullType(), nullable=True),
+    sa.Column('status', sa.String(), nullable=True),
     sa.Column('total_amount', sa.Float(), nullable=True),
     sa.ForeignKeyConstraint(['customer_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('order_details',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -61,8 +60,7 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['order_id'], ['orders.id'], ),
     sa.ForeignKeyConstraint(['product_id'], ['products.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id')
+    sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
 

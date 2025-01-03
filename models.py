@@ -1,5 +1,5 @@
 from database import Base
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Enum, Float, DateTime, Text
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Enum, Float, DateTime
 from datetime import datetime
 
 
@@ -12,8 +12,7 @@ class User(Base):
     email = Column(String, unique=True)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
-    role = Column()
-
+    role = Column(String)
 
 class Product(Base):
     __tablename__ = 'products'
@@ -23,29 +22,22 @@ class Product(Base):
     description = Column(String)
     price = Column(Float)
     stock = Column(Integer)
-    category = Column()
-
+    category = Column(String)
 
 class Order(Base):
     __tablename__ = 'orders'
 
-    id = Column(Integer, primary_key=True, unique=True)
+    id = Column(Integer, primary_key=True)
     customer_id = Column(Integer, ForeignKey('users.id'))
-    order_date = Column(DateTime, default=datetime.utcnow())
-    status = Column()
+    order_date = Column(DateTime, default=datetime.now())
+    status = Column(String, default='pending')
     total_amount = Column(Float)
-
 
 class OrderDetails(Base):
     __tablename__ = 'order_details'
 
-    id = Column(Integer, primary_key=True, unique=True)
+    id = Column(Integer, primary_key=True)
     order_id = Column(Integer, ForeignKey('orders.id'))
-    user_id = Column(Integer, ForeignKey('users.id'))
     product_id = Column(Integer, ForeignKey('products.id'))
     quantity = Column(Integer)
     unit_price = Column(Float)
-
-
-
-

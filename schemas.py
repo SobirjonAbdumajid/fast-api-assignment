@@ -1,4 +1,7 @@
-from pydantic import BaseModel
+from datetime import datetime, timezone
+
+from pydantic import BaseModel, Field
+
 
 
 class UserBase(BaseModel):
@@ -14,9 +17,14 @@ class ProductBase(BaseModel):
     category: str
 
 
-    # id = Column(Integer, primary_key=True)
-    # name = Column(String)
-    # description = Column(String)
-    # price = Column(Float)
-    # stock = Column(Integer)
-    # category = Column(Enum(Category))
+class OrderBase(BaseModel):
+    order_date: datetime
+    status: str
+    total_amount: float
+
+
+# id = Column(Integer, primary_key=True)
+#     customer_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+#     order_date = Column(DateTime, default=datetime.utcnow, nullable=False)
+#     status = Column(Enum(OrderStatus), default=OrderStatus.PENDING, nullable=False)
+#     total_amount = Column(Float, nullable=False)
